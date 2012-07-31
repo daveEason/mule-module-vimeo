@@ -14,4 +14,4 @@ build/
 *.iml
 *.ipr
 *.iws
-mule.properties
+mule.actual.properties
