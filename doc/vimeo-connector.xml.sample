@@ -1,0 +1,3 @@
+<!-- BEGIN_INCLUDE(vimeo:echo-test) -->
+    <vimeo:echo-test echoString="echoString" />
+<!-- END_INCLUDE(vimeo:echo-test) -->
