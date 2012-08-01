@@ -15,11 +15,11 @@
 
     <context:property-placeholder location="mule.properties"/>
 
-    <vimeo:config vimeoOAuthClientID="${vimeoOAuthClientId}"
+    <vimeo:config vimeoOAuthClientID="${vimeoOAuthClientID}"
                   vimeoOAuthClientSecret="${vimeoOAuthClientSecret}">
         <vimeo:oauth-restore-access-token>
-            <set-variable variableName="OAuthAccessToken"
-                          value="${accesstoken}"/>
+            <set-variable variableName="OAuthAccessToken" value="${accessToken}"/>
+            <set-variable variableName="OAuthAccessTokenSecret" value="${accessTokenSecret}"/>
         </vimeo:oauth-restore-access-token>
     </vimeo:config>
 
