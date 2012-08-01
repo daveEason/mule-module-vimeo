@@ -3,8 +3,10 @@
  */
 package org.mule.module;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.mule.api.MuleEvent;
+import org.mule.api.lifecycle.InitialisationException;
 import org.mule.construct.Flow;
 import org.mule.tck.junit4.AbstractMuleContextTestCase;
 import org.mule.tck.junit4.FunctionalTestCase;
@@ -13,10 +15,29 @@ import static org.junit.Assert.assertEquals;
 
 public class vimeoConnectorTest extends FunctionalTestCase
 {
+    private String apiAccessKey;
+    private String apiAccessKeySecret;
+    private String oAuthClientID;
+    private String oAuthClientSecret;
+
     @Override
     protected String getConfigResources()
     {
         return "mule-config.xml";
+    }
+
+    @Before
+    public void setUp() throws InitialisationException
+    {
+        //apiAccessKeys - Used for testing to access Your Vimeo account
+        apiAccessKey = System.getenv("user.key.vimeo.access");
+        apiAccessKeySecret = System.getenv("user.key.vimeo.secret");
+
+        //OAuth Client Id & Secret - Used for testing to initiate OAuth authorization.
+        oAuthClientID = System.getenv("user.key.vimeo.oauth.clientId");
+        oAuthClientSecret = System.getenv("user.key.vimeo.oauth.clientSecret");
+
+        //TODO: Inovke vimeo:authorize processor to initialize OAuth access key.
     }
 
     @Test
