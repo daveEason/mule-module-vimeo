@@ -10,12 +10,15 @@
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
         http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-        http://www.mulesoft.org/schema/mule/vimeo http://www.mulesoft.org/schema/mule/vimeo/1.0-SNAPSHOT/mule-vimeo.xsd">
+        http://www.mulesoft.org/schema/mule/vimeo http://www.mulesoft.org/schema/mule/vimeo/1.0-SNAPSHOT/mule-vimeo.xsd
+        http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
 
     <context:property-placeholder location="mule.properties"/>
 
     <vimeo:config vimeoOAuthClientID="${vimeoOAuthClientId}"
                   vimeoOAuthClientSecret="${vimeoOAuthClientSecret}"/>
+
+    <http:connector name="connector.http.mule.default"/>
 
     <flow name="echoTestFlow">
         <vimeo:echo-test echoString="echoString"/>

@@ -94,14 +94,14 @@ public class vimeoConnector
      *
      * {@sample.xml ../../../doc/vimeo-connector.xml.sample vimeo:echo-test}
      *
-     * @param vimeoOAuthClientID OAuth API Key
-     * @param vimeoOAuthClientSecret API Secret
+     * @param accessToken
+     * @param accessTokenSecret
      * @param echoString test parameter will be simply echoed back
      * @return echos back input parameter string
      */
     @Processor
-    public String echoTest(@OAuthAccessToken String vimeoOAuthClientID,
-                                @OAuthAccessTokenSecret String vimeoOAuthClientSecret,
+    public String echoTest(@OAuthAccessToken String accessToken,
+                                @OAuthAccessTokenSecret String accessTokenSecret,
                                 String echoString)
     {
         /*
