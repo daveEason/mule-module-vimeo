@@ -15,8 +15,7 @@
 
     <context:property-placeholder location="mule.properties"/>
 
-    <vimeo:config vimeoOAuthClientID="${vimeoOAuthClientID}"
-                  vimeoOAuthClientSecret="${vimeoOAuthClientSecret}">
+    <vimeo:config vimeoOAuthClientID="${vimeoOAuthClientID}" vimeoOAuthClientSecret="${vimeoOAuthClientSecret}">
         <vimeo:oauth-restore-access-token>
             <set-variable variableName="OAuthAccessToken" value="${accessToken}"/>
             <set-variable variableName="OAuthAccessTokenSecret" value="${accessTokenSecret}"/>
@@ -31,7 +30,7 @@
     </flow>
 
     <flow name="echoTestFlow">
-        <vimeo:echo-test echoString="echoString"/>
+        <vimeo:get-test-echo echoString="ping"/>
     </flow>
 
 </mule>

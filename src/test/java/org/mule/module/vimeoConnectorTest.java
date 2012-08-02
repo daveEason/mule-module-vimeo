@@ -43,7 +43,7 @@ public class vimeoConnectorTest extends FunctionalTestCase
     @Test
     public void testEchoFlow() throws Exception
     {
-        runFlowAndExpect("echoTestFlow", "echoString");
+        runFlowAndExpect("echoTestFlow", "ping");
     }
 
     /**

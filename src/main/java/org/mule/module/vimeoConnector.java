@@ -3,15 +3,17 @@
  */
 package org.mule.module;
 
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.core.util.MultivaluedMapImpl;
+import org.apache.commons.httpclient.HttpClient;
 import org.mule.api.annotations.Configurable;
-import org.mule.api.annotations.Module;
+import org.mule.api.annotations.Connector;
 import org.mule.api.annotations.Processor;
 import org.mule.api.annotations.oauth.*;
+import org.mule.api.annotations.rest.HttpMethod;
+import org.mule.api.annotations.rest.RestCall;
+import org.mule.api.annotations.rest.RestHttpClient;
+import org.mule.api.annotations.rest.RestUriParam;
 
-import javax.ws.rs.core.MultivaluedMap;
+import java.io.IOException;
 
 
 /**
@@ -19,107 +21,90 @@ import javax.ws.rs.core.MultivaluedMap;
  *
  * @author MuleSoft, Inc.
  */
-@Module(name="vimeo", schemaVersion="1.0-SNAPSHOT")
-@OAuth(requestTokenUrl = "https://vimeo.com/oauth/request_token",
-        accessTokenUrl = "https://vimeo.com/oauth/access_token",
-        authorizationUrl = "https://vimeo.com/oauth/authorize")
-public class vimeoConnector
+
+@OAuth(requestTokenUrl = vimeoConnector.REQUEST_TOKEN_URL,
+        accessTokenUrl = vimeoConnector.ACCESS_TOKEN_URL,
+        authorizationUrl = vimeoConnector.AUTHORIZATION_URL)
+@Connector(name="vimeo", schemaVersion="1.0-SNAPSHOT")
+public abstract class vimeoConnector
 {
+
+    public static final String REQUEST_TOKEN_URL = "https://vimeo.com/oauth/request_token";
+    public static final String AUTHORIZATION_URL = "https://vimeo.com/oauth/access_token";
+    public static final String ACCESS_TOKEN_URL = "https://vimeo.com/oauth/access_token";
+    public static final String BASE_URI = "http://vimeo.com/api/rest/v2?method=";
+
+
+    @RestHttpClient
+    private HttpClient httpClient;
+
     /**
      * Configurable
      */
     @Configurable
     @OAuthConsumerKey
     private String vimeoOAuthClientID;
+
     @Configurable
     @OAuthConsumerSecret
     private String vimeoOAuthClientSecret;
 
-    /**
-     * Jersey client
-     */
-    private Client client;
-    private WebResource webResource;
-    private MultivaluedMap<String, String> queryParams;
-    private String jsonResponse;
-    private String serviceMethod;
-    private static final String BASE_URI ="http://vimeo.com/api/rest/v2";
+
+    @OAuthAccessToken
+    private String accessToken;
+
+    @OAuthAccessTokenSecret
+    private String accessTokenSecret;
 
 
+    @Processor
+    @OAuthProtected
+    @RestCall(uri = BASE_URI+"vimeo.test.echo&echo={echoString}", method = HttpMethod.GET)
+    public abstract String getTestEcho(@RestUriParam("echoString") String echoString) throws IOException;
+
     /**
-     * Constructor
+     * Accessor methods
      */
-    public vimeoConnector()
-    {
-        client = new Client();
+
+    public HttpClient getHttpClient(){
+        return this.httpClient;
     }
 
-    /**
-     * Get property
-     *  
-     */
+    public void setHttpClient(HttpClient httpClient){
+        this.httpClient = httpClient;
+    }
+
     public String getVimeoOAuthClientID(){
         return this.vimeoOAuthClientID;
     }
 
-    /**
-     * Set property
-     *
-     * @param vimeoOAuthClientID - Client ID (Also know as Consumer Key or API Key)
-     */
     public void setVimeoOAuthClientID(String vimeoOAuthClientID)
     {
         this.vimeoOAuthClientID = vimeoOAuthClientID;
     }
 
-    /**
-     * Get property
-     */
     public String getVimeoOAuthClientSecret(){
         return this.vimeoOAuthClientSecret;
     }
     
-    /**
-     * Set property
-     *
-     * @param vimeoOAuthClientSecret - Client Secret (Also known as Consumer Secret or API Secret)
-     */
     public void setVimeoOAuthClientSecret(String vimeoOAuthClientSecret)
     {
         this.vimeoOAuthClientSecret = vimeoOAuthClientSecret;
     }
 
-    /**
-     * Vimeo Echo Test processor
-     *
-     * {@sample.xml ../../../doc/vimeo-connector.xml.sample vimeo:echo-test}
-     *
-     * @param accessToken
-     * @param accessTokenSecret
-     * @param echoString test parameter will be simply echoed back
-     * @return echos back input parameter string
-     */
-    @Processor
-    public String echoTest(@OAuthAccessToken String accessToken,
-                                @OAuthAccessTokenSecret String accessTokenSecret,
-                                String echoString)
-    {
-        /*
-         * MESSAGE PROCESSOR CODE GOES HERE
-         */
-        // Set service method
-        serviceMethod = "vimeo.test.echo";
+    public String getAccessToken() {
+        return accessToken;
+    }
 
-        webResource = client.resource(BASE_URI);
-        queryParams = new MultivaluedMapImpl();
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
 
-        // Set request fields
-        queryParams.add("method", serviceMethod);
-        queryParams.add("echoString", echoString);
+    public void setAccessTokenSecret(String accessTokenSecret) {
+        this.accessTokenSecret = accessTokenSecret;
+    }
 
-        // Invoke service
-        jsonResponse = webResource.queryParams(queryParams).get(String.class);
-
-        return jsonResponse;
+    public String getAccessTokenSecret() {
+        return accessTokenSecret;
     }
 }
