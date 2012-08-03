@@ -24,10 +24,10 @@
 
     <http:connector name="connector.http.mule.default"/>
 
-    <!--<flow name="authorizationAndAuthenticationFlow">-->
-        <!--<http:inbound-endpoint host="localhost" port="8080" path="oauth-authorize"/>-->
-        <!--<vimeo:authorize/>-->
-    <!--</flow>-->
+    <flow name="authorizationAndAuthenticationFlow">
+        <http:inbound-endpoint host="localhost" port="8080" path="oauth-authorize"/>
+        <vimeo:authorize/>
+    </flow>
 
     <flow name="echoTestFlow">
         <vimeo:get-test-echo echoString="ping"/>
