@@ -30,7 +30,7 @@
     </flow>
 
     <flow name="echoTestFlow">
-        <vimeo:get-test-echo echoString="ping"/>
+        <vimeo:get-test-echo echoString="ping" format="json"/>
     </flow>
 
 </mule>

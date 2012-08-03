@@ -8,10 +8,7 @@ import org.mule.api.annotations.Configurable;
 import org.mule.api.annotations.Connector;
 import org.mule.api.annotations.Processor;
 import org.mule.api.annotations.oauth.*;
-import org.mule.api.annotations.rest.HttpMethod;
-import org.mule.api.annotations.rest.RestCall;
-import org.mule.api.annotations.rest.RestHttpClient;
-import org.mule.api.annotations.rest.RestUriParam;
+import org.mule.api.annotations.rest.*;
 
 import java.io.IOException;
 
@@ -56,7 +53,9 @@ public abstract class vimeoConnector
     @OAuthConsumerSecret
     private String vimeoOAuthClientSecret;
 
-
+    /**
+     * responseFormat - options for response format include json, jsonp, php or xml (default)
+     */
     @OAuthAccessToken
     private String accessToken;
 
@@ -68,11 +67,11 @@ public abstract class vimeoConnector
         httpClient = new HttpClient();
     }
 
-
     @Processor
     @OAuthProtected
-    @RestCall(uri = BASE_URI+"vimeo.test.echo&echo={echoString}", method = HttpMethod.GET)
-    public abstract String getTestEcho(@RestUriParam("echoString") String echoString) throws IOException;
+    @RestCall(uri = BASE_URI+"vimeo.test.echo", method = HttpMethod.GET)
+    public abstract String getTestEcho(@RestQueryParam("echoString") String echoString,
+                                       @RestQueryParam("format") String format) throws IOException;
 
     /**
      * Accessor methods
@@ -125,6 +124,7 @@ public abstract class vimeoConnector
     public String getAccessToken() {
         return accessToken;
     }
+
     /**
      * Set property
      *
@@ -133,6 +133,7 @@ public abstract class vimeoConnector
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
     }
+
     /**
      * Set property
      *
