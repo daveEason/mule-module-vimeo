@@ -39,12 +39,19 @@ public abstract class vimeoConnector
     private HttpClient httpClient;
 
     /**
-     * Configurable
+     * Configurable parameters
+     */
+
+    /*
+     * vimeoOAuthClientID - Client ID (Also known as Consumer Key or API Key)
      */
     @Configurable
     @OAuthConsumerKey
     private String vimeoOAuthClientID;
 
+    /**
+     * vimeoOAuthClientSecret - Client Secret (Also known as Consumer Secret or API Secret)
+     */
     @Configurable
     @OAuthConsumerSecret
     private String vimeoOAuthClientSecret;
@@ -55,6 +62,11 @@ public abstract class vimeoConnector
 
     @OAuthAccessTokenSecret
     private String accessTokenSecret;
+
+    public vimeoConnector()
+    {
+        httpClient = new HttpClient();
+    }
 
 
     @Processor
@@ -70,6 +82,12 @@ public abstract class vimeoConnector
         return this.httpClient;
     }
 
+    /**
+     * Set property
+     *
+     * @param httpClient
+     */
+
     public void setHttpClient(HttpClient httpClient){
         this.httpClient = httpClient;
     }
@@ -77,6 +95,12 @@ public abstract class vimeoConnector
     public String getVimeoOAuthClientID(){
         return this.vimeoOAuthClientID;
     }
+
+    /**
+     * Set property
+     *
+     * @param vimeoOAuthClientID - Client ID (Also know as Consumer Key or API Key)
+     */
 
     public void setVimeoOAuthClientID(String vimeoOAuthClientID)
     {
@@ -86,7 +110,13 @@ public abstract class vimeoConnector
     public String getVimeoOAuthClientSecret(){
         return this.vimeoOAuthClientSecret;
     }
-    
+
+    /**
+     * Set property
+     *
+     * @param vimeoOAuthClientSecret - Client Secret (Also know as Consumer Secret or API Secret)
+     */
+
     public void setVimeoOAuthClientSecret(String vimeoOAuthClientSecret)
     {
         this.vimeoOAuthClientSecret = vimeoOAuthClientSecret;
@@ -95,11 +125,19 @@ public abstract class vimeoConnector
     public String getAccessToken() {
         return accessToken;
     }
-
+    /**
+     * Set property
+     *
+     * @param accessToken
+     */
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
     }
-
+    /**
+     * Set property
+     *
+     * @param accessTokenSecret
+     */
     public void setAccessTokenSecret(String accessTokenSecret) {
         this.accessTokenSecret = accessTokenSecret;
     }
